@@ -71,7 +71,7 @@ async def main() -> None:
     message = ''
     telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
     telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
-    now = datetime.now(timezone(timedelta(hours=8)))
+    now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
     is_logged_in = await login(url, email, password)
     if is_logged_in:
         message += f'✅账号 *{email}* 于北京时间{now}登录成功！\n\n'
