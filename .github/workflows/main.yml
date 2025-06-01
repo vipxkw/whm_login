@@ -3,7 +3,7 @@ name: Run
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 1"  # 每周1运行一次，可以根据需求调整时间
+    - cron: "36 12 * * 3"  # 每周1运行一次，可以根据需求调整时间
 
 jobs:
   login:
