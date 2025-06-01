@@ -26,8 +26,7 @@ jobs:
 
       - name: 运行登录脚本
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TOKEN: ${{ secrets.TOKEN }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
