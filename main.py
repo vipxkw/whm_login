@@ -49,28 +49,25 @@ async def send_telegram_message(message: str, telegram_bot_token: str, telegram_
 {message}
 
      """
-     url = f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage'
+     url = f'https://www.chinasclm.com/wecom/index.php?sendKey={token}&title=webhostmost虚拟主机签到&desp='
      payload = {
-         'chat_id': telegram_chat_id,
          'text': msg,
-         'parse_mode': 'Markdown',
      }
      headers = {'Content-Type': 'application/json'}
 
      try:
          response = requests.post(url, json=payload, headers=headers)
          if response.status_code != 200:
-             print(f'发送消息到Telegram失败: {response.text}')
+             print(f'推送微信失败: {response.text}')
      except Exception as e:
-         print(f'发送消息到Telegram时出错: {e}')
+         print(f'推送微信时出错: {e}')
 
 async def main() -> None:
     email = os.getenv('EMAIL')
     password = os.getenv('PASSWORD')
     url = 'https://client.webhostmost.com/login'
     message = ''
-    telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
-    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
+    token = os.getenv('TOKEN')
     now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
     is_logged_in = await login(url, email, password)
     if is_logged_in:
@@ -80,7 +77,7 @@ async def main() -> None:
         message += f'❌账号 *{email}* 于北京时间{now}登录失败！\n\n'
         print(f"账号登录失败，请检查账号和密码是否正确。")
 
-    await send_telegram_message(message, telegram_bot_token, telegram_chat_id)
+    await send_telegram_message(message, token,)
 
 
 if __name__ == "__main__":
