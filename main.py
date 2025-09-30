@@ -37,7 +37,7 @@ async def login(url: str, email: str, password:str) -> bool:
             await browser.close()
 
 async def send_notification(token: str, message: str) -> None:
-    url = f'https://www.chinasclm.com/wecom/index.php?sendKey={token}&title=webhostmost虚拟主机签到&desp={message}'
+    url = f'https://push.gedian.eu.org/push/vipiu?token={token}&title=webhostmost虚拟主机签到&desp=GITHUB签到推送&channel={message}'
     
     try:
         response = requests.get(url)
@@ -52,7 +52,7 @@ async def main() -> None:
     url = 'https://client.webhostmost.com/login'
     message = ''
     token = os.getenv('TOKEN')  # 更改为获取新的 token
-    now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
+    现在 = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
     is_logged_in = await login(url, email, password)
     if is_logged_in:
         message += f'✅账号 *{email}* 于北京时间{now}登录成功！\n\n'
