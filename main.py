@@ -52,7 +52,7 @@ async def main() -> None:
     url = 'https://client.webhostmost.com/login'
     message = ''
     token = os.getenv('TOKEN')  # 更改为获取新的 token
-    现在 = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
+    now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
     is_logged_in = await login(url, email, password)
     if is_logged_in:
         message += f'✅账号 *{email}* 于北京时间{now}登录成功！\n\n'
