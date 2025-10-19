@@ -12,8 +12,8 @@ async def login(url: str, email: str, password:str) -> bool:
         page = await browser.newPage()
         await page.goto(url)
         original_url = page.url
-        await page.输入('#inputEmail', email)
-        await page.输入('#inputPassword', password)
+        await page.type('#inputEmail', email)
+        await page.type('#inputPassword', password)
 
         login_button = await page.querySelector('#login')
         if login_button:
@@ -31,9 +31,9 @@ async def login(url: str, email: str, password:str) -> bool:
         print(f'账号登录时出现错误: {e}')
         return False
     finally:
-        if page is not 无:
+        if page is not None:
             await page.close()
-        if browser is not 无:
+        if browser is not None:
             await browser.close()
 
 async def send_notification(token: str, message: str) -> None:
@@ -52,7 +52,7 @@ async def main() -> None:
     url = 'https://client.webhostmost.com/login'
     message = ''
     token = os.getenv('TOKEN')  # 更改为获取新的 token
-    现在 = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
+    now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
     is_logged_in = await login(url, email, password)
     if is_logged_in:
         message += f'✅账号 *{email}* 于北京时间{now}登录成功！\n\n'
