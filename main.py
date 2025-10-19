@@ -40,10 +40,11 @@ async def send_notification(token: str, message: str) -> None:
     data = {
         "token": token,
         "channel": "wechat",
-        "title": "WebHostMost虚拟主机签到",
-        "description": "GitHub签到推送",
+        "title": "📡 WebHostMost 虚拟主机签到",
+        "description": "GitHub 自动签到推送",
         "content": message
     }
+
     try:
         response = requests.post(url, data=data)
         if response.status_code != 200:
@@ -55,15 +56,38 @@ async def main() -> None:
     email = os.getenv('EMAIL')
     password = os.getenv('PASSWORD')
     url = 'https://client.webhostmost.com/login'
-    message = ''
     token = os.getenv('TOKEN')
     now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
+    
     is_logged_in = await login(url, email, password)
+    
     if is_logged_in:
-        message += f'✅账号 *{email}* 于北京时间{now}登录成功！\n\n'
+        message = f"""
+🎉 **签到成功**
+
+📧 **账号**: {email}
+⏰ **时间**: {now}
+🌏 **时区**: 北京时间 (UTC+8)
+✅ **状态**: 登录成功
+
+---
+*WebHostMost 虚拟主机自动签到完成*
+        """.strip()
         print(f"账号于北京时间{now}登录成功！")
     else:
-        message += f'❌账号 *{email}* 于北京时间{now}登录失败！\n\n'
+        message = f"""
+❌ **签到失败**
+
+📧 **账号**: {email}
+⏰ **时间**: {now}
+🌏 **时区**: 北京时间 (UTC+8)
+⚠️ **状态**: 登录失败
+
+💡 **建议**: 请检查账号和密码是否正确
+
+---
+*WebHostMost 虚拟主机自动签到失败*
+        """.strip()
         print(f"账号登录失败，请检查账号和密码是否正确。")
 
     await send_notification(token, message)
