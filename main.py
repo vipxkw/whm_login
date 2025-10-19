@@ -37,7 +37,7 @@ async def login(url: str, email: str, password:str) -> bool:
             await browser.close()
 
 async def send_notification(token: str, message: str) -> None:
-    url = f'https://push.chinasclm.com/push/vipiu?token={token}&title=webhostmost虚拟主机签到&desp=GITHUB签到推送&channel={message}'
+    url = f'https://push.chinasclm.com/push/vipiu?token={token}&channel=wechat&title=webhostmost虚拟主机签到&desp=GITHUB签到推送&content={message}'
     
     try:
         response = requests.get(url)
