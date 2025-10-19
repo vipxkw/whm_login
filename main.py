@@ -4,7 +4,6 @@ import requests
 from pyppeteer import launch
 from datetime import datetime, timezone, timedelta
 
-
 async def login(url: str, email: str, password:str) -> bool:
     page = None
     browser = await launch(headless=True, args=['--no-sandbox', '--disable-setuid-sandbox'])
@@ -37,10 +36,16 @@ async def login(url: str, email: str, password:str) -> bool:
             await browser.close()
 
 async def send_notification(token: str, message: str) -> None:
-    url = f'https://push.chinasclm.com/push/vipiu?token={token}&channel=wechat&title=webhostmost虚拟主机签到&desp=GITHUB签到推送&content={message}'
-    
+    url = 'https://push.chinasclm.com/push/vipiu'
+    data = {
+        "token": token,
+        "channel": "wechat",
+        "title": "WebHostMost虚拟主机签到",
+        "description": "GitHub签到推送",
+        "content": message
+    }
     try:
-        response = requests.get(url)
+        response = requests.post(url, data=data)
         if response.status_code != 200:
             print(f'发送消息失败: {response.text}')
     except Exception as e:
@@ -51,7 +56,7 @@ async def main() -> None:
     password = os.getenv('PASSWORD')
     url = 'https://client.webhostmost.com/login'
     message = ''
-    token = os.getenv('TOKEN')  # 更改为获取新的 token
+    token = os.getenv('TOKEN')
     now = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')
     is_logged_in = await login(url, email, password)
     if is_logged_in:
@@ -61,7 +66,7 @@ async def main() -> None:
         message += f'❌账号 *{email}* 于北京时间{now}登录失败！\n\n'
         print(f"账号登录失败，请检查账号和密码是否正确。")
 
-    await send_notification(token, message)  # 调用新的通知函数
+    await send_notification(token, message)
 
 if __name__ == "__main__":
     asyncio.run(main())
